@@ -1,6 +1,7 @@
 package goaptsearch
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -21,10 +22,29 @@ type APTPackages struct {
 	Sha256       string   `json:"SHA256"`
 }
 
-// func AptSearch(packageName string) {
+// AptSearch: allows to perform a targeted search using the exact name of the package to be searched,
+//
+// or a keyword search that will result in all packages that include that string in the name
+func AptSearch(searchPackage string, packagesList []APTPackages, searchExactName bool) ([]APTPackages, error) {
+	var filteredPackageList []APTPackages
+	for _, singlePackage := range packagesList {
+		if searchExactName {
+			if singlePackage.PackageName == searchPackage {
+				filteredPackageList = append(filteredPackageList, singlePackage)
+			}
+		} else {
+			if strings.Contains(singlePackage.PackageName, searchPackage) {
+				filteredPackageList = append(filteredPackageList, singlePackage)
+			}
+		}
+	}
+	if len(filteredPackageList) == 0 {
+		return nil, fmt.Errorf("package %s not found, try performing an apt update", searchPackage)
+	}
+	return filteredPackageList, nil
+}
 
-// }
-
+// AptListALL: scan the source.list on the system and return the list of all available packages
 func AptListAll() ([]APTPackages, error) {
 	allPackagesFiles, errGetRepoFileList := getRepoFileList()
 	if errGetRepoFileList != nil {
