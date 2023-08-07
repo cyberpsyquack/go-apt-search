@@ -75,7 +75,7 @@ func main() {
 	if errAptListAll != nil {
 		panic(errAptListAll)
 	}
-	searchResult, errAptSearch := AptSearch("0ad", fullPackagesList, false)
+	searchResult, errAptSearch := apt.AptSearch("0ad", fullPackagesList, false)
 	if errAptSearch != nil {
 		panic(errAptSearch)
 	}
