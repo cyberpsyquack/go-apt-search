@@ -58,6 +58,73 @@ Now only the essential information has been included, but all the others will be
 
 ## Example
 
+The search can be performed in a precise manner, indicating the exact name of the package to be searched for, or search for all packages that include a certain string in their name.
+In the example case a search is performed for **0ad** indicating that this is not a precise search
+
+```go
+package main
+
+import (
+	"fmt"
+
+	apt "github.com/Sfrisio/go-apt-search"
+)
+
+func main() {
+	fullPackagesList, errAptListAll := apt.AptListAll()
+	if errAptListAll != nil {
+		panic(errAptListAll)
+	}
+	searchResult, errAptSearch := AptSearch("0ad", fullPackagesList, false)
+	if errAptSearch != nil {
+		panic(errAptSearch)
+	}
+	for _, singlePackage := range searchResult {
+		fmt.Printf("\n### %s ###\n", singlePackage.PackageName)
+		fmt.Printf("Version: %s\n", singlePackage.Version)
+		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
+		fmt.Printf("Depends: %s\n", singlePackage.Depends)
+		fmt.Printf("Description: %s\n", singlePackage.Description)
+		fmt.Printf("Section: %s\n", singlePackage.Section)
+		fmt.Printf("MD5sum: %s\n", singlePackage.Md5sum)
+		fmt.Printf("SHA256: %s\n", singlePackage.Sha256)
+	}
+}
+```
+
+Result:
+
+```
+### 0ad ###
+Version: 0.0.26-3
+Architecture: amd64
+Depends: [ 0ad-data (>= 0.0.26)  0ad-data (<= 0.0.26-3)  0ad-data-common (>= 0.0.26)  0ad-data-common (<= 0.0.26-3)  libboost-filesystem1.74.0 (>= 1.74.0)  libc6 (>= 2.34)  libcurl3-gnutls (>= 7.32.0)  libenet7  libfmt9 (>= 9.1.0+ds1)  libfreetype6 (>= 2.2.1)  libgcc-s1 (>= 3.4)  libgloox18 (>= 1.0.24)  libicu72 (>= 72.1~rc-1~)  libminiupnpc17 (>= 1.9.20140610)  libopenal1 (>= 1.14)  libpng16-16 (>= 1.6.2-1)  libsdl2-2.0-0 (>= 2.0.12)  libsodium23 (>= 1.0.14)  libstdc++6 (>= 12)  libvorbisfile3 (>= 1.1.2)  libwxbase3.2-1 (>= 3.2.1+dfsg)  libwxgtk-gl3.2-1 (>= 3.2.1+dfsg)  libwxgtk3.2-1 (>= 3.2.1+dfsg-2)  libx11-6  libxml2 (>= 2.9.0)  zlib1g (>= 1:1.2.0)]
+Description: Real-time strategy game of ancient warfare
+Section: games
+MD5sum: 4d471183a39a3a11d00cd35bf9f6803d
+SHA256: 3a2118df47bf3f04285649f0455c2fc6fe2dc7f0b237073038aa00af41f0d5f2
+
+### 0ad-data ###
+Version: 0.0.26-1
+Architecture: all
+Depends: [ 0ad-data (>= 0.0.26)  0ad-data (<= 0.0.26-3)  0ad-data-common (>= 0.0.26)  0ad-data-common (<= 0.0.26-3)  libboost-filesystem1.74.0 (>= 1.74.0)  libc6 (>= 2.34)  libcurl3-gnutls (>= 7.32.0)  libenet7  libfmt9 (>= 9.1.0+ds1)  libfreetype6 (>= 2.2.1)  libgcc-s1 (>= 3.4)  libgloox18 (>= 1.0.24)  libicu72 (>= 72.1~rc-1~)  libminiupnpc17 (>= 1.9.20140610)  libopenal1 (>= 1.14)  libpng16-16 (>= 1.6.2-1)  libsdl2-2.0-0 (>= 2.0.12)  libsodium23 (>= 1.0.14)  libstdc++6 (>= 12)  libvorbisfile3 (>= 1.1.2)  libwxbase3.2-1 (>= 3.2.1+dfsg)  libwxgtk-gl3.2-1 (>= 3.2.1+dfsg)  libwxgtk3.2-1 (>= 3.2.1+dfsg-2)  libx11-6  libxml2 (>= 2.9.0)  zlib1g (>= 1:1.2.0)]
+Description: Real-time strategy game of ancient warfare (data files)
+Section: games
+MD5sum: fc5ed8a20ce1861950c7ed3a5a615be0
+SHA256: 53745ae74d05bccf6783400fa98f3932b21729ab9d2e86151aa2c331c3455178
+
+### 0ad-data-common ###
+Version: 0.0.26-1
+Architecture: all
+Depends: [ fonts-dejavu-core | ttf-dejavu-core  fonts-freefont-ttf | ttf-freefont  fonts-texgyre | tex-gyre]
+Description: Real-time strategy game of ancient warfare (common data files)
+Section: games
+MD5sum: 7ce70dc6e6de01134d2e199499fd3925
+SHA256: 0a40074c844a304688e503dd0c3f8b04e10e40f6f81b8bad260e07c54aa37864
+```
+
+List all available packages:
+
 ```go
 package main
 
@@ -73,8 +140,7 @@ func main() {
 		panic(err)
 	}
 	for _, singlePackage := range fullPackagesList {
-		fmt.Println("##########")
-		fmt.Printf("Package: %s\n", singlePackage.PackageName)
+		fmt.Printf("\n###: %s ###\n", singlePackage.PackageName)
 		fmt.Printf("Version: %s\n", singlePackage.Version)
 		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
 		fmt.Printf("Depends: %s\n", singlePackage.Depends)
