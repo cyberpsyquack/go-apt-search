@@ -52,8 +52,8 @@ func AptSearch(searchPackage string, packagesList []APTPackages, searchExactName
 	return filteredPackageList, nil
 }
 
-// AptListALL: scan the source.list on the system and return the list of all available packages
-func AptListAll() ([]APTPackages, error) {
+// AptListALL: scan the all source.list on the system and return the list of all available packages
+func AptListAllPackages() ([]APTPackages, error) {
 	allPackagesFiles, errGetRepoFileList := getRepoFileList()
 	if errGetRepoFileList != nil {
 		return nil, errGetRepoFileList
@@ -65,8 +65,24 @@ func AptListAll() ([]APTPackages, error) {
 	return allPackagesList, nil
 }
 
+// AptListPackagesInRepo: scans only specific source.lists and returns the packages available into them
+func AptListPackagesInRepo(selectedRepo []RepoArchive) ([]APTPackages, error) {
+	if len(selectedRepo) == 0 {
+		return nil, fmt.Errorf("please provide at least one repository")
+	}
+	var repoFileList []string
+	for _, selectedRepoFile := range selectedRepo {
+		repoFileList = append(repoFileList, selectedRepoFile.ListFileName)
+	}
+	filteredPackagesList, errBuildPackagesList := buildPackagesList(repoFileList)
+	if errBuildPackagesList != nil {
+		return nil, errBuildPackagesList
+	}
+	return filteredPackagesList, nil
+}
+
 // GetRepoDomain: returns a list of currently active repositories by distribution and area
-func GetRepoDomain() ([]RepoArchive, error) {
+func GetAvailableRepo() ([]RepoArchive, error) {
 	repoList, errGetRepoFileList := getRepoFileList()
 	if errGetRepoFileList != nil {
 		return nil, errGetRepoFileList
