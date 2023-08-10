@@ -80,7 +80,7 @@ func main() {
 		panic(errAptSearch)
 	}
 	for _, singlePackage := range searchResult {
-		fmt.Printf("\n### %s ###\n", singlePackage.PackageName)
+		fmt.Printf("\n#### %s ####\n", singlePackage.PackageName)
 		fmt.Printf("Version: %s\n", singlePackage.Version)
 		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
 		fmt.Printf("Depends: %s\n", singlePackage.Depends)
@@ -150,7 +150,7 @@ func main() {
 		panic(errAptSearch)
 	}
 	for _, singlePackage := range searchResult {
-		fmt.Printf("\n### %s ###\n", singlePackage.PackageName)
+		fmt.Printf("\n#### %s ####\n", singlePackage.PackageName)
 		fmt.Printf("Version: %s\n", singlePackage.Version)
 		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
 		fmt.Printf("Depends: %s\n", singlePackage.Depends)
@@ -179,7 +179,7 @@ func main() {
 		panic(err)
 	}
 	for _, singlePackage := range fullPackagesList {
-		fmt.Printf("\n###: %s ###\n", singlePackage.PackageName)
+		fmt.Printf("\n#### %s ####\n", singlePackage.PackageName)
 		fmt.Printf("Version: %s\n", singlePackage.Version)
 		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
 		fmt.Printf("Depends: %s\n", singlePackage.Depends)
