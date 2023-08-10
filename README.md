@@ -123,6 +123,45 @@ MD5sum: 7ce70dc6e6de01134d2e199499fd3925
 SHA256: 0a40074c844a304688e503dd0c3f8b04e10e40f6f81b8bad260e07c54aa37864
 ```
 
+Search filtering by reposipotry
+
+```go
+package main
+
+import (
+	"fmt"
+
+	apt "github.com/Sfrisio/go-apt-search"
+)
+
+func main() {
+	availableRepo, errGetAvailableRepo := apt.GetAvailableRepo()
+	if errGetAvailableRepo != nil {
+		panic(errGetAvailableRepo)
+	}
+	var myRepo []apt.RepoArchive
+	for _, repo := range availableRepo {
+		if strings.Contains(repo.Domain, "deb.debian.org") {
+			myRepo = append(myRepo, repo)
+		}
+	}
+	searchResult, errAptSearch := apt.AptSearch("synaptic", myRepo, false)
+	if errAptSearch != nil {
+		panic(errAptSearch)
+	}
+	for _, singlePackage := range searchResult {
+		fmt.Printf("\n### %s ###\n", singlePackage.PackageName)
+		fmt.Printf("Version: %s\n", singlePackage.Version)
+		fmt.Printf("Architecture: %s\n", singlePackage.Architecture)
+		fmt.Printf("Depends: %s\n", singlePackage.Depends)
+		fmt.Printf("Description: %s\n", singlePackage.Description)
+		fmt.Printf("Section: %s\n", singlePackage.Section)
+		fmt.Printf("MD5sum: %s\n", singlePackage.Md5sum)
+		fmt.Printf("SHA256: %s\n", singlePackage.Sha256)
+	}
+}
+```
+
 List all available packages:
 
 ```go
