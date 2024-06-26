@@ -67,7 +67,7 @@ package main
 import (
 	"fmt"
 
-	apt "github.com/Sfrisio/go-apt-search"
+	apt "github.com/cyberpsyquack/go-apt-search"
 )
 
 func main() {
@@ -131,7 +131,7 @@ package main
 import (
 	"fmt"
 
-	apt "github.com/Sfrisio/go-apt-search"
+	apt "github.com/cyberpsyquack/go-apt-search"
 )
 
 func main() {
@@ -170,7 +170,7 @@ package main
 import (
 	"fmt"
 
-	apt "github.com/Sfrisio/go-apt-search"
+	apt "github.com/cyberpsyquack/go-apt-search"
 )
 
 func main() {
