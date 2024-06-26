@@ -1,3 +1,3 @@
-module github.com/Sfrisio/go-apt-search
+module github.com/cyberpsyquack/go-apt-search
 
 go 1.21
